@@ -84,7 +84,7 @@ class Hreflang_Fixer {
 		$this->set_domains();
 
 
-		add_action('wp_head',array($this,'wk_add_hreflang_to_head'));
+		add_action('wp_head',array($this,'wk_add_hreflang_to_head'), 1);
 
 	}
 
@@ -105,27 +105,38 @@ class Hreflang_Fixer {
 	 **/
 
 	public function wk_add_hreflang_to_head() {
-		if(is_user_logged_in()){
-			return;
-		}
 
 		$url = $_SERVER['REQUEST_URI'];
 		$uria = explode("/", $url);
 		$uri = $uria[1];
-
+        
+        
+        // if(is_user_logged_in()){
+        //     var_dump($uri);
+        // }
 
 
 		$domains = $this->domains;
 		$default = false;
 
 		//First get the current request url 
-
-		echo '<link rel="alternate" hreflang="x-default" href="https://micronordic.com/" />';
-		echo '<link rel="alternate" hreflang="en" href="https://micronordic.com/" />';
-
+        ?>
+		<link rel="alternate" hreflang="x-default" href="https://micronordic.com/" />
+		<link rel="alternate" hreflang="en" href="https://micronordic.com/" />
+		
+        <?php 
+        
+        /*
 		foreach($domains as $lang => $locale ){
-			echo '<link rel="alternate" hreflang="'.$lang.'"-"'.$locale.'" href="https://micronordic.com"'.$url.'" />';
+		    $hreflang = $lang."-".$locale;
+		    $full_url = $lang.$url;
+		    
+		    echo "<link rel='alternate' hreflang='".$hreflang."' href='".$full_url."' />";
+			
+			
 		}
+		*/
+		
 	}
 
 	/**
