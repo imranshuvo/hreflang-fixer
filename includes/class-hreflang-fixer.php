@@ -90,7 +90,7 @@ class Hreflang_Fixer {
 
 	public function set_domains(){
 		$args = array(
-			'sv' => 'SE',
+			//'sv' => 'SE',
 			'da' => 'DK',
 		);
 		$this->domains = array_merge($this->domains, $args);
@@ -109,11 +109,8 @@ class Hreflang_Fixer {
 		$url = $_SERVER['REQUEST_URI'];
 		$uria = explode("/", $url);
 		$uri = $uria[1];
+		unset($uria[1]);
         
-        
-        // if(is_user_logged_in()){
-        //     var_dump($uri);
-        // }
 
 
 		$domains = $this->domains;
@@ -123,19 +120,35 @@ class Hreflang_Fixer {
         ?>
 		<link rel="alternate" hreflang="x-default" href="https://micronordic.com/" />
 		<link rel="alternate" hreflang="en" href="https://micronordic.com/" />
-		
+		<link rel="alternate" hreflang="en-US" href="https://micronordic.com/" />
         <?php 
         
-        /*
+        
 		foreach($domains as $lang => $locale ){
-		    $hreflang = $lang."-".$locale;
-		    $full_url = $lang.$url;
+		    $hreflang1 = $lang."-".$locale;
+		    $hreflang2 = $lang;
+		    $full_url = implode(" ", $uria);
+		    $full_url = str_replace(" ","/", $full_url);
+		    $full_url = strtolower($locale).$full_url;
 		    
-		    echo "<link rel='alternate' hreflang='".$hreflang."' href='".$full_url."' />";
-			
+		    /*
+		    if(is_user_logged_in()){
+		        var_dump($full_url);
+		    }
+		    */
+		    
+		    if($url == "/"){
+		        echo "<link rel='alternate' hreflang='".$hreflang1."' href='https://micronordic.com/".$full_url."/' />";
+		        echo "<link rel='alternate' hreflang='".$hreflang2."' href='https://micronordic.com/".$full_url."/' />";
+		    }else{
+		        echo "<link rel='alternate' hreflang='".$hreflang1."' href='https://micronordic.com/".$full_url."' />";
+		        echo "<link rel='alternate' hreflang='".$hreflang2."' href='https://micronordic.com/".$full_url."' />";
+		    }
+		    
+		    
 			
 		}
-		*/
+		
 		
 	}
 
